@@ -2,6 +2,8 @@ import { Response, Request } from "express"
 import * as express from 'express'
 import fetch from 'node-fetch';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 const ORIGIN_PROXY = 'https://nn.oimi.space'
 const app = express()
 const isUrl = (url: string) => url.startsWith("http://") || url.startsWith("https://")
@@ -49,6 +51,6 @@ app.use('/', async (req: Request, res: Response, next: Function) => {
     }
 })
 
-app.listen(8981, () => {
+app.listen(3000, () => {
     console.log("shell script server tranformer on");
 })

@@ -13,7 +13,7 @@
             "dom",
             "es2020.promise"
         ],
-        "outDir": "./dist",
+        "outDir": ".",
         "removeComments": true
 	},
     "compileOnSave": true,
