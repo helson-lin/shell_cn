@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "es2021",
+		"module": "commonjs",
+		"strict": true,
+        "experimentalDecorators": true,
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+        "types": ["./src/typing", "node"],
+		"lib": [
+            "es2021",
+            "dom",
+            "es2020.promise"
+        ],
+        "outDir": "./dist",
+        "removeComments": true
+	},
+    "compileOnSave": true,
+    "include": ["./src/**/*", "postman-request.d.ts"],
+	"exclude": ["node_modules"]
+}
