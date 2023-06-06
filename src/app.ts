@@ -28,22 +28,26 @@ const getSourceData = (url: string, proxy: string) => {
 
 app.use('/', async (req: Request, res: Response, next: Function) => {
     const baseURL = req.originalUrl.slice(1)
-    if (!isUrl(baseURL)) {
-        res.end("please provide correct shell script url")
+    if (baseURL === 'favicon.ico') {
+        next()
     } else {
-        const BASEURL = new URL(baseURL)
-        const sourceURL = baseURL.replace(BASEURL.search, '')
-        const searchParams = new URLSearchParams(BASEURL.search);
-        const PROXY_WEBURL = searchParams.get('proxy') ?? ORIGIN_PROXY
-        if (!sourceURL || !isShell(sourceURL)) {
-            res.send("please provide correct shell script url")
+        if (!isUrl(baseURL)) {
+            res.end("please provide correct shell script url")
         } else {
-            try {
-                const shellContent = await getSourceData(sourceURL, PROXY_WEBURL)
-                res.end(shellContent)
-            } catch(e) {
-                res.status(400)
-                res.end(e + '')
+            const BASEURL = new URL(baseURL)
+            const sourceURL = baseURL.replace(BASEURL.search, '')
+            const searchParams = new URLSearchParams(BASEURL.search);
+            const PROXY_WEBURL = searchParams.get('proxy') ?? ORIGIN_PROXY
+            if (!sourceURL) {
+                res.send("please provide correct shell script url")
+            } else {
+                try {
+                    const shellContent = await getSourceData(sourceURL, PROXY_WEBURL)
+                    res.end(shellContent)
+                } catch(e) {
+                    res.status(400)
+                    res.end(e + '')
+                }
             }
         }
     }
