@@ -48,7 +48,7 @@ app.use('/', async (req: Request, res: Response, next: Function) => {
             const searchParams = new URLSearchParams(BASEURL.search);
             const PROXY_WEBURL = searchParams.get('proxy') ?? ORIGIN_PROXY
             if (!sourceURL) {
-                res.send("please provide correct shell script url")
+                res.send("please provide correct shell script url:" + sourceURL)
             } else {
                 try {
                     const shellContent = await getSourceData(sourceURL, PROXY_WEBURL)
