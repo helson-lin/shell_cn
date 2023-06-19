@@ -51,6 +51,6 @@ app.use('/', async (req, res, next) => {
         }
     }
 });
-app.listen(3000, () => {
+app.listen(8981, () => {
     console.log("shell script server tranformer on");
 });

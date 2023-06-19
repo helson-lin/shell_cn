@@ -1,13 +1,19 @@
 import { Response, Request } from "express"
 import * as express from 'express'
 import fetch from 'node-fetch';
+import 'dotenv/config'
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-
-const ORIGIN_PROXY = 'https://nn.oimi.space'
+const PORT = process.env.PORT || 3000
+const ORIGIN_PROXY = process.env.ORIGIN_PROXY || 'https://nn.oimi.space'
 const app = express()
-const isUrl = (url: string) => url.startsWith("http://") || url.startsWith("https://")
-const isShell = (url: string) => url.endsWith(".sh")
+const isUrl = (url: string) => {
+    try {
+        new URL(url)
+        return true
+    } catch (e) {
+        return false
+    }
+}
 const handlerGithubURL = (content: string, proxy: string) => {
     const handerKeys = ['https://github.com', 'https://raw.githubusercontent.com']
     handerKeys.forEach(key => {
@@ -29,12 +35,13 @@ const getSourceData = (url: string, proxy: string) => {
 
 
 app.use('/', async (req: Request, res: Response, next: Function) => {
-    const baseURL = req.originalUrl.slice(1)
+    let baseURL = req.originalUrl.slice(1)
     if (baseURL === 'favicon.ico') {
         next()
     } else {
+        console.log(req.headers['accept-language'])
         if (!isUrl(baseURL)) {
-            res.end("please provide correct shell script url")
+            res.end("please provide correct url")
         } else {
             const BASEURL = new URL(baseURL)
             const sourceURL = baseURL.replace(BASEURL.search, '')
@@ -48,13 +55,13 @@ app.use('/', async (req: Request, res: Response, next: Function) => {
                     res.end(shellContent)
                 } catch(e) {
                     res.status(400)
-                    res.end(e + '')
+                    res.send('cant resolve this url: ' + sourceURL + '\Nerror:' + e)
                 }
             }
         }
     }
 })
 
-app.listen(3000, () => {
-    console.log("shell script server tranformer on");
+app.listen(PORT, () => {
+    console.log(`server is running on: ${PORT}`);
 })
