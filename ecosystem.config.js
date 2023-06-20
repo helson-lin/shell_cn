@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'aic',
-      script: 'node ./dist/app.js',
+      script: 'node ./app.js',
       args: ''
     }
   ]
