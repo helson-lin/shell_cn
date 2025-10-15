@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import 'dotenv/config'
 
 const PORT = process.env.PORT || 3000
-const ORIGIN_PROXY = process.env.ORIGIN_PROXY || 'https://nn.oimi.space'
+const ORIGIN_PROXY = process.env.ORIGIN_PROXY || ''
 const app = express()
 const isUrl = (url: string) => {
     try {
